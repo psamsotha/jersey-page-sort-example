@@ -60,17 +60,18 @@ public class PageableValueFactoryProvider implements ValueFactoryProvider {
             List<Sort.Order> orders = new ArrayList<>();
             for (String propOrder: sort) {
                 String[] propOrderSplit = propOrder.split(",");
+                String property = propOrderSplit[0];
                 if (propOrderSplit.length == 1) {
-                    orders.add(new Sort.Order(propOrderSplit[0]));
+                    orders.add(new Sort.Order(property));
                 } else {
                     Sort.Direction direction
                             = Sort.Direction.fromStringOrNull(propOrderSplit[1]);
-                    String property = propOrderSplit[0];
                     orders.add(new Sort.Order(direction, property));
                 }
             }
 
-            return new PageRequest(page, size, orders.isEmpty() ? null : new Sort(orders));
+            return new PageRequest(page, size,
+                    orders.isEmpty() ? null : new Sort(orders));
         }
     }
 }
